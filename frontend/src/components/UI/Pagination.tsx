@@ -6,6 +6,7 @@ interface Props {
     pageSize: number
     setPage: Dispatch<SetStateAction<number>>
     setPageSize: Dispatch<SetStateAction<number>>
+    count: number
 }
 
 const Pagination: React.FC<Props> = (props) => {
@@ -21,21 +22,26 @@ const Pagination: React.FC<Props> = (props) => {
     ]
 
     return !!props.pages && props.pages.length
-        ? <div className="h-12 pt-1 flex flex-row justify-between items-center">
-            <select
-                className="p-1 rounded border-2"
-                defaultValue={props.pageSize}
-                onChange={(e) => props.setPageSize(parseInt(e.target.value))}
-            >
-                {
-                    options.map(opt => {
-                        return (
-                            <option key={opt[0]} value={opt[0]}>{opt[1]}</option>
-                        )
-                    })
-                }
-            </select>
-            <nav className="flex flex flex-row justify-center">
+        ? <div className="h-12 flex flex-row justify-between items-center">
+            <div className='flex flex-row items-center'>
+                <select
+                    className="p-1 rounded border-2 text-sm bg-white"
+                    defaultValue={props.pageSize}
+                    onChange={(e) => props.setPageSize(parseInt(e.target.value))}
+                >
+                    {
+                        options.map(opt => {
+                            return (
+                                <option key={opt[0]} value={opt[0]}>{opt[1]}</option>
+                            )
+                        })
+                    }
+                </select>
+                <div className='text-indigo-800 text-sm ml-14'>
+                    Количество: {props.count}
+                </div>
+            </div>
+            <nav className="flex flex-row justify-center">
                 <ul className="list-style-none flex">
                     <li key={0}>
                         <a

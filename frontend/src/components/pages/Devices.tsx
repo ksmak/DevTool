@@ -7,11 +7,11 @@ import Toolbar from '../UI/Toolbar'
 import { getPages } from '../../utils/pages'
 import { ipComparator } from '../../utils/comparators'
 import { useDevices } from '../hooks/useDevice'
-import { EFieldVariant, EButtonVariant, IButton, IDatabase, IDevice, IDict, IFieldType, IHeader, IQuery, IRangeIP, IUser } from '../../types/types'
+import { EFieldVariant, EButtonVariant, IButton, IDatabase, IDevice, IDict, IFieldType, IHeader, IQuery, IUser } from '../../types/types'
 import Form from '../UI/Form'
 import Dialog from '../UI/Dialog'
 
-const Devices: React.FC = () => {
+const Devices = () => {
     const getEmptyDevice = () => {
         return {
             id: null,
@@ -26,28 +26,14 @@ const Devices: React.FC = () => {
         }
     }
 
-    const getEmptyIPRange = () => {
-        return {
-            ipFrom: null,
-            ipTo: null,
-            type_of_device: null,
-            location: null,
-            department: null,
-            management: null
-        }
-    }
-
-    const [showEditItem, setShowEditItem] = useState<boolean>(false)
+    const [showEditItemDialog, setShowEditItemDialog] = useState<boolean>(false)
     const [showDeleteItemDialog, setShowDeleteItemDialog] = useState<boolean>(false)
     const [showDeleteItemsDialog, setShowDeleteItemsDialog] = useState<boolean>(false)
-    const [showCreateIPRange, setShowCreateIPRange] = useState<boolean>(false)
-    const [showReplaceItem, setShowReplaceItem] = useState<boolean>(false)
     const [showReplaceItemDialog, setShowReplaceItemDialog] = useState<boolean>(false)
     const [showErrorDialog, setShowErrorDialog] = useState<boolean>(false)
     const [dicts, setDicts] = useState<IDict[]>([])
     const [devices, setDevices] = useState<IDevice[]>([])
     const [device, setDevice] = useState<IDevice>(getEmptyDevice())
-    const [rangeIP, setRangeIP] = useState<IRangeIP>(getEmptyIPRange())
     const [pages, setPages] = useState<number[]>([])
     const [page, setPage] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(254)
@@ -91,19 +77,19 @@ const Devices: React.FC = () => {
         { id: 5, field: 6, title: 'Служба' },
         { id: 6, field: 7, title: 'Подразделение' },
         { id: 7, field: 8, title: 'Сотрудник' },
+        { id: 8, field: 9, title: '' },
     ]
 
     const toolbarButtons: IButton[] = [
-        { id: 1, variant: EButtonVariant.plus, onClick: () => { handleCreate() } },
-        { id: 2, variant: EButtonVariant.squares_plus, onClick: () => { handleCreateIPRange() } },
-        { id: 3, variant: EButtonVariant.printer, onClick: () => { handlePrintItem() } },
-        { id: 4, variant: EButtonVariant.archive_box_x_mark, onClick: () => { handleOpenDeleteItemsDialog() } },
-        { id: 5, variant: EButtonVariant.archive_box_arrow_down, onClick: () => { hanldeOpenReplaceItemDialog() } },
+        { id: 1, variant: EButtonVariant.plus, title: 'Добавить новое устройство', onClick: () => { handleCreate() } },
+        { id: 2, variant: EButtonVariant.printer, title: 'Распечатать', onClick: () => { handlePrintItem() } },
+        { id: 3, variant: EButtonVariant.archive_box_x_mark, title: 'Удалить выделенные устройства', onClick: () => { handleOpenDeleteItemsDialog() } },
+        { id: 4, variant: EButtonVariant.archive_box_arrow_down, title: 'Заменить значения', onClick: () => { handleOpenReplaceItemsDialog() } },
     ]
 
     const editItemButtons: IButton[] = [
         { id: 1, variant: EButtonVariant.primary, title: 'Сохранить', onClick: () => { handleSave() } },
-        { id: 2, variant: EButtonVariant.secondary, title: 'Закрыть', onClick: () => { setShowEditItem(false) } },
+        { id: 2, variant: EButtonVariant.secondary, title: 'Закрыть', onClick: () => { setShowEditItemDialog(false) } },
     ]
 
     const deleteItemButtons: IButton[] = [
@@ -116,28 +102,16 @@ const Devices: React.FC = () => {
         { id: 2, variant: EButtonVariant.secondary, title: 'Отмена', onClick: () => { setShowDeleteItemsDialog(false) } },
     ]
 
-    const createIPRangeButtons: IButton[] = [
-        { id: 1, variant: EButtonVariant.primary, title: 'Создать', onClick: () => { handleSaveIPRange() } },
-        { id: 2, variant: EButtonVariant.secondary, title: 'Закрыть', onClick: () => { setShowCreateIPRange(false) } },
-    ]
-
     const errorButtons: IButton[] = [
         { id: 1, variant: EButtonVariant.secondary, title: 'Закрыть', onClick: () => { setShowErrorDialog(false) } },
     ]
 
     const replaceItemButtons: IButton[] = [
-        { id: 1, variant: EButtonVariant.danger, title: 'Заменить', onClick: () => { setShowReplaceItemDialog(true) } },
-        { id: 2, variant: EButtonVariant.secondary, title: 'Отмена', onClick: () => { setShowReplaceItem(false) } },
-    ]
-
-    const replaceItemDialogButtons: IButton[] = [
-        { id: 1, variant: EButtonVariant.danger, title: 'Заменить', onClick: () => { handleReplaceItem() } },
+        { id: 1, variant: EButtonVariant.danger, title: 'Заменить', onClick: () => { handleReplaceItems() } },
         { id: 2, variant: EButtonVariant.secondary, title: 'Отмена', onClick: () => { setShowReplaceItemDialog(false) } },
     ]
 
     const IPRangeFields: IFieldType[] = [
-        { id: 1, variant: EFieldVariant.text, name: 'ipFrom', title: 'IP начало', size: '100rem', maxLength: 15 },
-        { id: 2, variant: EFieldVariant.text, name: 'ipTo', title: 'IP конец', size: '100rem', maxLength: 15 },
         { id: 3, variant: EFieldVariant.select, name: 'type_of_device', title: 'Тип устройства', size: '100rem', maxLength: 0, dict: 'typesOfDevice' },
         { id: 4, variant: EFieldVariant.text, name: 'location', title: 'Адрес', size: '100rem', maxLength: 300 },
         { id: 5, variant: EFieldVariant.select, name: 'department', title: 'Служба', size: '100rem', maxLength: 0, dict: 'departments' },
@@ -180,14 +154,14 @@ const Devices: React.FC = () => {
         setDevice(getEmptyDevice())
         setError(null)
         setErrors([])
-        setShowEditItem(true)
+        setShowEditItemDialog(true)
     }
 
     const handleOpen = (item: IDevice) => {
         setDevice(item)
         setError(null)
         setErrors([])
-        setShowEditItem(true)
+        setShowEditItemDialog(true)
     }
 
     const handleSave = () => {
@@ -201,7 +175,7 @@ const Devices: React.FC = () => {
                 } else {
                     if (resp.status === 201) {
                         setDevices(prev => prev.concat(resp.data))
-                        setShowEditItem(false)
+                        setShowEditItemDialog(false)
                     } else if (resp.status === 200) {
                         setDevices(prev => {
                             const index = prev.findIndex(item => item.id === resp.data.id)
@@ -209,7 +183,7 @@ const Devices: React.FC = () => {
                             new_arr.splice(index, 1, resp.data)
                             return new_arr
                         })
-                        setShowEditItem(false)
+                        setShowEditItemDialog(false)
                     }
                 }
             })
@@ -232,7 +206,7 @@ const Devices: React.FC = () => {
                 console.log(resp)
                 setLoading(false)
                 setShowDeleteItemDialog(false)
-                setShowEditItem(false)
+                setShowEditItemDialog(false)
                 setDevices(prev => {
                     const index = prev.findIndex(it => it.id === item.id)
                     let new_arr = [...prev]
@@ -274,63 +248,6 @@ const Devices: React.FC = () => {
         setShowDeleteItemsDialog(false)
     }
 
-    const handleCreateIPRange = () => {
-        setRangeIP(getEmptyIPRange)
-        setError(null)
-        setErrors([])
-        setShowCreateIPRange(true)
-    }
-
-    const handleSaveIPRange = async () => {
-        setLoading(true)
-        setError(null)
-        const validIp = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
-        if (validIp.test(rangeIP?.ipFrom ? rangeIP.ipFrom : '')) {
-            if (validIp.test(rangeIP?.ipTo ? rangeIP.ipTo : '')) {
-                const ipFrom = rangeIP?.ipFrom ? rangeIP.ipFrom.split('.') : ['0', '0', '0', '0']
-                const ipTo = rangeIP?.ipTo ? rangeIP.ipTo.split('.') : ['0', '0', '0', '0']
-                if (ipFrom[0] === ipTo[0] && ipFrom[1] === ipTo[1] && ipFrom[2] === ipTo[2] && ipFrom[3] < ipTo[3]) {
-                    for (let i = parseInt(ipFrom[3]); i <= parseInt(ipTo[3]); i++) {
-                        const device = {
-                            id: null,
-                            ip: `${ipFrom[0]}.${ipFrom[1]}.${ipFrom[2]}.${i}`,
-                            type_of_device: rangeIP?.type_of_device,
-                            location: rangeIP?.location,
-                            management: rangeIP?.management,
-                            department: rangeIP?.department,
-                        }
-                        try {
-                            const resp = await api.devices.updateDevice(device)
-                            console.log(resp)
-                            if (!!resp && resp.status !== 200) {
-                                setLoading(false)
-                                setError(`Ошибка! ${JSON.stringify(resp.data, null, 4)}`)
-                                return
-                            }
-                            setDevices(prev => prev.concat(resp.data))
-                        } catch (err: any) {
-                            console.error(err)
-                            setLoading(false)
-                            setError(err.message)
-                            return
-                        }
-                    }
-                    setLoading(false)
-                    setShowCreateIPRange(false)
-                } else {
-                    setLoading(false)
-                    setError("Ошибка! Неверный диапазон!")
-                }
-            } else {
-                setLoading(false)
-                setError("Ошибка! Некорректный IP (конец)")
-            }
-        } else {
-            setLoading(false)
-            setError("Ошибка! Некорректный IP (начало)")
-        }
-    }
-
     const handleSetCheck = (item: IDevice) => {
         let checkArray = [...checks]
         let index = checkArray.findIndex(it => it === item.id)
@@ -356,6 +273,7 @@ const Devices: React.FC = () => {
 
     const handleOpenDeleteItemsDialog = () => {
         if (!!checks && checks.length) {
+            setError("")
             setShowDeleteItemsDialog(true)
         } else {
             setError("Ничего не выбрано!")
@@ -387,24 +305,36 @@ const Devices: React.FC = () => {
             })
     }
 
-    const hanldeOpenReplaceItemDialog = () => {
-        if (checks.length <= 0) {
+    const handleOpenReplaceItemsDialog = () => {
+        if (!!checks && checks.length) {
+            setError("")
+            setShowReplaceItemDialog(true)
+        } else {
             setError("Ничего не выбрано!")
             setShowErrorDialog(true)
-            return
         }
-        setShowReplaceItem(true)
     }
 
-    const handleReplaceItem = async () => {
+    const handleReplaceItems = async () => {
         setShowReplaceItemDialog(false)
         setLoading(true)
         for (let i = 0; i < checks.length; i++) {
             let item = devices.find(it => it.id === checks[i])
             if (item) {
                 try {
+                    if (device.type_of_device) {
+                        item.type_of_device = device.type_of_device;
+                    }
+                    if (device.location) {
+                        item.location = device.location;
+                    }
+                    if (device.management) {
+                        item.management = device.management;
+                    }
+                    if (device.department) {
+                        item.department = device.department;
+                    }
                     const response = await api.devices.updateDevice(item)
-                    console.log(response)
                     setDevices(prev => {
                         const index = prev.findIndex(item => item.id === response.data.id);
                         let new_arr = [...prev];
@@ -421,16 +351,15 @@ const Devices: React.FC = () => {
             }
         }
         setLoading(false)
-        setShowReplaceItem(false)
+        setShowReplaceItemDialog(false)
     }
 
     return (
         <div>
             <Dialog
                 title={database.name}
-                size='xl'
-                isVisible={showEditItem}
-                setVisible={setShowEditItem}
+                isVisible={showEditItemDialog}
+                setVisible={setShowEditItemDialog}
                 buttons={editItemButtons}
                 isLoading={loading}
             >
@@ -444,27 +373,9 @@ const Devices: React.FC = () => {
                 />
             </Dialog>
             <Dialog
-                title="Диапазон IP"
-                size='xl'
-                isVisible={showCreateIPRange}
-                setVisible={setShowCreateIPRange}
-                buttons={createIPRangeButtons}
-                isLoading={loading}
-            >
-                <Form
-                    error={error}
-                    errors={errors}
-                    fields={IPRangeFields}
-                    item={rangeIP}
-                    setItem={setRangeIP}
-                    dicts={dicts}
-                />
-            </Dialog>
-            <Dialog
                 title={`${database.name} - Замена`}
-                size='xl'
-                isVisible={showReplaceItem}
-                setVisible={setShowReplaceItem}
+                isVisible={showReplaceItemDialog}
+                setVisible={setShowReplaceItemDialog}
                 buttons={replaceItemButtons}
                 isLoading={loading}
             >
@@ -479,7 +390,6 @@ const Devices: React.FC = () => {
             </Dialog>
             <Dialog
                 title={`Удалить ${database.name}?`}
-                size='md'
                 buttons={deleteItemButtons}
                 isVisible={showDeleteItemDialog}
                 setVisible={setShowDeleteItemDialog}
@@ -487,7 +397,6 @@ const Devices: React.FC = () => {
             />
             <Dialog
                 title={`Удалить ${database.namePlural}?`}
-                size='md'
                 buttons={deleteItemsButtons}
                 isVisible={showDeleteItemsDialog}
                 setVisible={setShowDeleteItemsDialog}
@@ -495,24 +404,14 @@ const Devices: React.FC = () => {
             />
             <Dialog
                 title={error}
-                size='md'
                 buttons={errorButtons}
                 isVisible={showErrorDialog}
                 setVisible={setShowErrorDialog}
                 isLoading={loading}
             />
-            <Dialog
-                title={`Заменить данные?`}
-                size='md'
-                buttons={replaceItemDialogButtons}
-                isVisible={showReplaceItemDialog}
-                setVisible={setShowReplaceItemDialog}
-                isLoading={loading}
-            />
             <main>
                 <Toolbar
                     user={user}
-                    title={database.namePlural}
                     buttons={toolbarButtons}
                     isLoading={loading}
                 />
@@ -522,6 +421,7 @@ const Devices: React.FC = () => {
                     setPage={setPage}
                     pageSize={pageSize}
                     setPageSize={setPageSize}
+                    count={devices.length}
                 />
                 <Table
                     fields={fields}
@@ -535,6 +435,8 @@ const Devices: React.FC = () => {
                     checks={checks}
                     setCheck={handleSetCheck}
                     selectAll={handleSelectAll}
+                    queries={queries}
+                    setQueries={setQueries}
                 />
             </main>
         </div >

@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import axios from 'axios'
 import { useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -6,7 +5,7 @@ import { setCookie } from '../../utils/cookies'
 import Loading from '../UI/Loading'
 
 
-const Login: FC = () => {
+const Login = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const buttonRef = useRef<HTMLButtonElement>(null)
@@ -26,11 +25,11 @@ const Login: FC = () => {
                 setLoading(false)
                 const access_msc = process.env.REACT_APP_ACCESS_TOKEN_LIFETIME
                     ? parseInt(process.env.REACT_APP_ACCESS_TOKEN_LIFETIME)
-                    : 0
+                    : 10800000
                 setCookie('access_token', resp.data.access, access_msc)
-                const refresh_msc = process.env.REACT_APP_ACCESS_TOKEN_LIFETIME
-                    ? parseInt(process.env.REACT_APP_ACCESS_TOKEN_LIFETIME)
-                    : 0
+                const refresh_msc = process.env.REACT_APP_REFRESH_TOKEN_LIFETIME
+                    ? parseInt(process.env.REACT_APP_REFRESH_TOKEN_LIFETIME)
+                    : 86400000
                 setCookie('refresh_token', resp.data.refresh, refresh_msc)
                 navigate(fromPage, { replace: true })
             })
@@ -46,12 +45,12 @@ const Login: FC = () => {
     }
 
     return (
-        <div className="h-screen flex flex-row justify-center items-center" >
-            <form className="p-5 rounded-md shadow-md shadow-gray-500 bg-blue-200" onSubmit={handleLogin}>
-                <div className="m-2 flex flex-row justify-between">
-                    <label className="text-blue-950" htmlFor="username">Имя пользователя: </label>
+        <div className="h-screen flex flex-row justify-center" >
+            <form className="h-fit mt-64 p-5 rounded-md shadow-md shadow-gray-500 bg-blue-100" onSubmit={handleLogin}>
+                <div className="m-2 flex flex-row justify-between gap-4">
+                    <label className="text-indigo-900" htmlFor="username">Имя пользователя: </label>
                     <input
-                        className="p-1 rounded-md border-2"
+                        className="p-1 rounded-md border-2 text-indigo-800"
                         type="text"
                         id="username"
                         name="username"
@@ -59,10 +58,10 @@ const Login: FC = () => {
                         required
                     />
                 </div>
-                <div className="m-2 flex flex-row justify-between">
-                    <label className="text-blue-950" htmlFor="password">Пароль:</label>
+                <div className="m-2 flex flex-row justify-between gap-4">
+                    <label className="text-indigo-900" htmlFor="password">Пароль:</label>
                     <input
-                        className="p-1 rounded-md border-2"
+                        className="p-1 rounded-md border-2 text-indigo-800"
                         type="password"
                         id="password"
                         name="password"
@@ -72,13 +71,13 @@ const Login: FC = () => {
                 </div>
                 <div className='flex flex-row justify-center p-2'>
                     <Loading isLoading={isLoading} />
-                    <div className="h-4 text-red-500 text-sm">
+                    <div className="h-4 text-red-600 text-sm">
                         {errorMessage}
                     </div>
                 </div>
                 <div className="mt-3 flex flex-row justify-center">
                     <button
-                        className="p-1 rounded bg-blue-100 w-40 drop-shadow-lg outline outline-blue-100 focus:outline-none focus:drop-shadow-none"
+                        className="text-indigo-900 p-1 rounded bg-blue-100 w-40 drop-shadow-lg outline outline-blue-100 focus:outline-none focus:drop-shadow-none"
                         type="submit"
                         ref={buttonRef}
                     >

@@ -11,7 +11,6 @@ import { IButton } from "../../types/types"
 
 interface Props {
     title: string | null
-    size: string
     buttons: IButton[]
     isVisible: boolean
     setVisible: Dispatch<SetStateAction<boolean>>
@@ -19,27 +18,28 @@ interface Props {
     children?: React.ReactNode
 }
 
-const Modal: React.FC<Props> = (props) => {
+const Modal = ({ title, buttons, isVisible, setVisible, isLoading, children }: Props) => {
 
-    return <Dialog open={props.isVisible} handler={props.setVisible}>
+    return <Dialog open={isVisible} handler={setVisible}>
         <DialogHeader>
             <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
-                {props.title}
+                {title}
             </h5>
-            <Loading isLoading={props.isLoading} />
+            <Loading isLoading={isLoading} />
         </DialogHeader>
         <DialogBody>
-            {props.children ? props.children : ''}
+            {children ? children : ''}
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
             {
-                props.buttons.map(button => {
+                buttons.map(button => {
                     return (
                         <Button
                             key={button.id}
+                            title={button.title ? button.title : ''}
                             variant={button.variant}
                             onClick={button.onClick}
-                            isDisabled={props.isLoading}
+                            isDisabled={isLoading}
                         >
                             {button.title}
                         </Button>

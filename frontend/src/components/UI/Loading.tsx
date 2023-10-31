@@ -8,7 +8,7 @@ interface Props {
 const Loading: React.FC<Props> = ({ isLoading }) => {
 
     return <> {
-        isLoading && <Spinner color='blue' />
+        isLoading && <Spinner color='indigo' />
     } </>
 }
 

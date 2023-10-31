@@ -46,7 +46,7 @@ export const useDevices = (
         return sortedDevices.filter(item => {
             let condition: boolean = true
             queries.forEach(element => {
-                if (!element.value) {
+                if (element.value) {
                     condition = condition && item[element.name].toString().toLowerCase().startsWith(element.value?.toString().toLowerCase());
                 }
             });
