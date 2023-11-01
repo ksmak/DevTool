@@ -61,12 +61,13 @@ const Devices = () => {
         { id: 1, variant: EFieldVariant.hidden, name: 'id', title: 'id', size: '1rem', maxLength: 10 },
         { id: 2, variant: EFieldVariant.text, name: 'ip', title: 'IP адрес', size: '50rem', maxLength: 15, comparator: (a, b) => ipComparator(a.ip, b.ip) },
         { id: 3, variant: EFieldVariant.select, name: 'type_of_device', title: 'Тип устройства', size: '100rem', maxLength: 0, dict: 'typesOfDevice' },
-        { id: 4, variant: EFieldVariant.text, name: 'location', title: 'Адрес', size: '100rem', maxLength: 300 },
+        { id: 4, variant: EFieldVariant.select, name: 'location', title: 'Адрес', size: '100rem', maxLength: 0, dict: 'locations' },
         { id: 5, variant: EFieldVariant.text, name: 'cabinet', title: 'Кабинет', size: '100rem', maxLength: 5 },
         { id: 6, variant: EFieldVariant.select, name: 'department', title: 'Служба', size: '100rem', maxLength: 0, dict: 'departments' },
         { id: 7, variant: EFieldVariant.select, name: 'management', title: 'Подразделение', size: '100rem', maxLength: 5, dict: 'managements' },
-        { id: 8, variant: EFieldVariant.text, name: 'employee', title: 'Сотрудник', size: '100rem', maxLength: 255 },
-        { id: 9, variant: EFieldVariant.text, name: 'remote_admin_url', title: 'Ссылка для удаленного доступа', size: '100rem', maxLength: 500 },
+        { id: 8, variant: EFieldVariant.text, name: 'description', title: 'Описание', size: '100rem', maxLength: 255 },
+        { id: 9, variant: EFieldVariant.text, name: 'employee', title: 'Сотрудник', size: '100rem', maxLength: 255 },
+        { id: 10, variant: EFieldVariant.text, name: 'remote_admin_url', title: 'Ссылка для удаленного доступа', size: '100rem', maxLength: 500 },
     ]
 
     const tableHeaders: IHeader[] = [
@@ -76,8 +77,9 @@ const Devices = () => {
         { id: 4, field: 5, title: 'Кабинет' },
         { id: 5, field: 6, title: 'Служба' },
         { id: 6, field: 7, title: 'Подразделение' },
-        { id: 7, field: 8, title: 'Сотрудник' },
-        { id: 8, field: 9, title: '' },
+        { id: 7, field: 8, title: 'Описание' },
+        { id: 8, field: 9, title: 'Сотрудник' },
+        { id: 9, field: 10, title: '' },
     ]
 
     const toolbarButtons: IButton[] = [

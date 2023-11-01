@@ -5,7 +5,7 @@ import Login from './components/pages/Login';
 
 const App = () => {
   return (
-    <div className="container mx-auto flex flex-col min-h-screen font-mono">
+    <div className="flex flex-col min-h-screen font-mono">
       <Routes>
         <Route path="/" element={
           <ProtectedRouter>

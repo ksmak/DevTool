@@ -19,7 +19,7 @@ interface Props<T> {
 
 export default function Table<T>(props: Props<T>) {
     return (
-        <div className="overflow-y-auto h-[calc(100vh-10rem)]">
+        <div className="overflow-y-auto h-[calc(100vh-10rem)] mt-2">
             <table className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
                 <thead className="border-b font-normal text-xs dark:border-neutral-500 bg-blue-100">
                     <tr className="border-b">
@@ -31,8 +31,9 @@ export default function Table<T>(props: Props<T>) {
                             const field = props.fields.find(it => it.id === header.field)
                             return field ?
                                 field.name === 'remote_admin_url'
-                                    ? <th scope="col"
+                                    ? <th
                                         key={header.id}
+                                        scope="col"
                                         className="sticky top-0 h-10 border-r px-1 py-1 dark:border-neutral-500 hover:cursor-pointer flex items-center"
                                         onClick={() => props.setSortAndOrder(field.name)}
                                     >
@@ -71,7 +72,7 @@ export default function Table<T>(props: Props<T>) {
                             const dict = props.dicts.find(it => it.name === field?.dict)
                             return field
                                 ? field.name === 'remote_admin_url'
-                                    ? <th scope="col"
+                                    ? <th key={header.id} scope="col"
                                         className="sticky top-10 border-r p-1 dark:border-neutral-500"
                                     />
                                     : <th key={header.id} scope="col"
@@ -153,7 +154,7 @@ export default function Table<T>(props: Props<T>) {
                                     {props.headers.map(header => {
                                         const field = props.fields.find(it => it.id === header.field)
                                         if (field?.name === 'remote_admin_url') {
-                                            return <td className="whitespace-nowrap border-r px-1 py-1 font-normal text-xs dark:border-neutral-500">
+                                            return <td key={field.id} className="whitespace-nowrap border-r px-1 py-1 font-normal text-xs dark:border-neutral-500">
                                                 {item['remote_admin_url' as keyof T]
                                                     ? <a href={String(item['remote_admin_url' as keyof typeof item])} target="_blank" rel="noreferrer">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">

@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '10.145.104.32']
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -68,12 +68,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': os.getenv('POSTGRES_DBNAME'),
+		'USER': os.getenv('POSTGRES_USER'),
+		'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+		'HOST': os.getenv('POSTGRES_HOST'),
+		'PORT': os.getenv('POSTGRES_PORT'),
+	}
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -93,11 +96,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = 'media/'
 
-MEDIA_ROOT = BASE_DIR / 'mediafiles'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -107,6 +110,8 @@ AUTH_USER_MODEL = 'auths.CustomUser'
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'http://localhost:3000',
+    'http://10.145.104.32',
+    'https://10.145.104.32',
 ]
 
 CORS_ALLOW_CREDENTIALS = True

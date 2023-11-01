@@ -5,6 +5,7 @@ from dictionaries.models import (
     TypeOfDevice,
     Department,
     Management,
+    Location,
 )
 
 
@@ -24,9 +25,10 @@ class Device(models.Model):
         on_delete=models.RESTRICT
     )
 
-    location = models.CharField(
+    location = models.ForeignKey(
         verbose_name=_('location'),
-        max_length=300,
+        to=Location,
+        on_delete=models.DO_NOTHING,
         blank=True,
         null=True
     )
@@ -50,6 +52,13 @@ class Device(models.Model):
         verbose_name=_('management'),
         to=Management,
         on_delete=models.DO_NOTHING,
+        blank=True,
+        null=True
+    )
+
+    description = models.CharField(
+        verbose_name=_('description'),
+        max_length=255,
         blank=True,
         null=True
     )

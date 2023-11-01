@@ -6,11 +6,13 @@ from .models import (
     TypeOfDevice,
     Department,
     Management,
+    Location,
 )
 from .serializers import (
     TypeOfDeviceSerializer,
     DepartmentSerializer,
     ManagementSerializer,
+    LocationSerializer,
 )
 
 dicts = [
@@ -20,6 +22,8 @@ dicts = [
         'serializer': DepartmentSerializer},
     {'name': 'managements', 'model': Management,
         'serializer': ManagementSerializer},
+    {'name': 'locations', 'model': Location,
+        'serializer': LocationSerializer},
 ]
 
 
