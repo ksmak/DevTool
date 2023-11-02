@@ -52,9 +52,7 @@ const Devices = () => {
 
     const user: IUser = {
         id: 1,
-        username: 'root',
-        fullname: 'root',
-        src: `${process.env.REACT_APP_HOST_API}/media/images/root.bmp`
+        username: localStorage.getItem('username'),
     }
 
     const fields: IFieldType[] = [

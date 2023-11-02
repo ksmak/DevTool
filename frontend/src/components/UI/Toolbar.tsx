@@ -22,7 +22,7 @@ const Toolbar = ({ user, buttons, isLoading }: Props) => {
     return <div className="mt-2 font-medium dark:border-neutral-500 ">
         <div className="flex flex-row justify-between">
             <div className="flex flex-row items-center gap-2">
-                <div className="text-sm text-indigo-900">Пользователь: {user.fullname}</div>
+                <div className="text-sm text-indigo-900">Пользователь: {user.username}</div>
                 <div className="text-sm text-indigo-900 hover:cursor-pointer underline" onClick={() => handleLogout()}>выйти</div>
             </div>
             <div className="flex flex-row justify-end items-end gap-3">

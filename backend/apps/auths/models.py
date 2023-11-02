@@ -137,6 +137,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self) -> str:
         return self.username
+    
+    @property
+    def full_name(self):
+        if self.surname or self.name:
+            return f"{self.surname} {self.name} {self.patronymic}".strip()
+        else:
+            return self.username
 
     class Meta:
         verbose_name = _('user')
