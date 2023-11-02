@@ -140,8 +140,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
     @property
     def full_name(self):
-        if self.surname or self.name:
-            return f"{self.surname} {self.name} {self.patronymic}".strip()
+        fullname = []
+        if self.surname:
+            fullname.append(self.surname)
+        if self.name:
+            fullname.append(self.name)
+        if self.patronymic:
+            fullname.append(self.patronymic)
+        if len(fullname) > 0:
+            return " ".join(fullname)
         else:
             return self.username
 

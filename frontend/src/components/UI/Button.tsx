@@ -57,7 +57,7 @@ const Button = ({ title, variant, onClick, isDisabled, children }: Props) => {
                         color="blue"
                         onClick={onClick}
                     >
-                        <i className="fas fa-plus"></i>
+                        <img src="icons/plus.png" alt="plus" />
                     </IconButton>
                 </Tooltip>
             case EButtonVariant.printer:
@@ -68,7 +68,7 @@ const Button = ({ title, variant, onClick, isDisabled, children }: Props) => {
                         color="blue"
                         onClick={onClick}
                     >
-                        <i className="fas fa-print"></i>
+                        <img src="icons/print.png" alt="plus" />
                     </IconButton>
                 </Tooltip>
             case EButtonVariant.archive_box_x_mark:
@@ -79,7 +79,7 @@ const Button = ({ title, variant, onClick, isDisabled, children }: Props) => {
                         color="red"
                         onClick={onClick}
                     >
-                        <i className="fas fa-trash"></i>
+                        <img src="icons/remove.png" alt="plus" />
                     </IconButton>
                 </Tooltip>
             case EButtonVariant.archive_box_arrow_down:
@@ -90,7 +90,7 @@ const Button = ({ title, variant, onClick, isDisabled, children }: Props) => {
                         color="red"
                         onClick={onClick}
                     >
-                        <i className="fas fa-exchange"></i>
+                        <img src="icons/replace.png" alt="plus" />
                     </IconButton>
                 </Tooltip>
         }

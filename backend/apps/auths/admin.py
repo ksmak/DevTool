@@ -91,7 +91,6 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('department', 'management', 'username')
 
     readonly_fields = (
-        'is_staff',
         'is_superuser',
     )
 

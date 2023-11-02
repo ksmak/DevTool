@@ -19,7 +19,7 @@ const Toolbar = ({ user, buttons, isLoading }: Props) => {
         navigate('/login')
     }
 
-    return <div className="mt-2 font-medium dark:border-neutral-500 ">
+    return <div className="px-2 mt-2 font-medium dark:border-neutral-500 ">
         <div className="flex flex-row justify-between">
             <div className="flex flex-row items-center gap-2">
                 <div className="text-sm text-indigo-900">Пользователь: {user.username}</div>

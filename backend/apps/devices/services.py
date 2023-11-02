@@ -46,9 +46,10 @@ def create_excel(ids):
     ws['E1'] = 'Кабинет'
     ws['F1'] = 'Служба'
     ws['G1'] = 'Подразделение'
-    ws['H1'] = 'Сотрудник'
+    ws['H1'] = 'Описание'
+    ws['I1'] = 'Сотрудник'
     # font, color and color
-    for r in ws["A1:H1"]:
+    for r in ws["A1:I1"]:
         for cell in r:
             cell.font = bold
             cell.fill = fill
@@ -68,15 +69,17 @@ def create_excel(ids):
             ws[f'B{row}'] = device.ip
             ws[f'C{row}'] = device.type_of_device.title \
                 if device.type_of_device else None
-            ws[f'D{row}'] = device.location
+            ws[f'D{row}'] = device.location.title \
+                if device.location else None
             ws[f'E{row}'] = device.cabinet
             ws[f'F{row}'] = device.department.title \
                 if device.department else None
             ws[f'G{row}'] = device.management.title \
                 if device.management else None
-            ws[f'H{row}'] = device.employee
+            ws[f'H{row}'] = device.description
+            ws[f'I{row}'] = device.employee
             # border
-            for r in ws[f'A{row}:H{row}']:
+            for r in ws[f'A{row}:I{row}']:
                 for cell in r:
                     cell.border = Border(left=thin, right=thin,
                                          top=thin, bottom=thin)

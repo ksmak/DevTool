@@ -10,6 +10,7 @@ import { useDevices } from '../hooks/useDevice'
 import { EFieldVariant, EButtonVariant, IButton, IDatabase, IDevice, IDict, IFieldType, IHeader, IQuery, IUser } from '../../types/types'
 import Form from '../UI/Form'
 import Dialog from '../UI/Dialog'
+import { getCookie } from '../../utils/cookies'
 
 const Devices = () => {
     const getEmptyDevice = () => {
@@ -52,7 +53,7 @@ const Devices = () => {
 
     const user: IUser = {
         id: 1,
-        username: localStorage.getItem('username'),
+        username: getCookie('username'),
     }
 
     const fields: IFieldType[] = [

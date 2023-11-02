@@ -5,7 +5,7 @@ export interface IDatabase {
 
 export interface IUser {
     id: number
-    username: string | null
+    username: string | undefined
 }
 
 export interface IDictItem {

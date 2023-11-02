@@ -31,7 +31,7 @@ const Login = () => {
                     ? parseInt(process.env.REACT_APP_REFRESH_TOKEN_LIFETIME)
                     : 86400000
                 setCookie('refresh_token', resp.data.refresh, refresh_msc)
-                localStorage.setItem('username', resp.data.full_name)
+                setCookie('username', resp.data.full_name, refresh_msc)
                 navigate(fromPage, { replace: true })
             })
             .catch(err => {
