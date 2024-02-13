@@ -7,10 +7,9 @@ import Toolbar from '../UI/Toolbar'
 import { getPages } from '../../utils/pages'
 import { ipComparator } from '../../utils/comparators'
 import { useDevices } from '../hooks/useDevice'
-import { EFieldVariant, EButtonVariant, IButton, IDatabase, IDevice, IDict, IFieldType, IHeader, IQuery, IUser } from '../../types/types'
+import { EFieldVariant, EButtonVariant, IButton, IDatabase, IDevice, IDict, IFieldType, IHeader, IQuery } from '../../types/types'
 import Form from '../UI/Form'
 import Dialog from '../UI/Dialog'
-import { getCookie } from '../../utils/cookies'
 
 const Devices = () => {
     const getEmptyDevice = () => {
@@ -49,11 +48,6 @@ const Devices = () => {
     const database: IDatabase = {
         name: "Сетевое устройство",
         namePlural: "Сетевые устройства",
-    }
-
-    const user: IUser = {
-        id: 1,
-        username: getCookie('username'),
     }
 
     const fields: IFieldType[] = [
@@ -412,7 +406,6 @@ const Devices = () => {
             />
             <main className='p-4'>
                 <Toolbar
-                    user={user}
                     buttons={toolbarButtons}
                     isLoading={loading}
                 />

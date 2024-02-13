@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { getCookie, setCookie } from '../utils/cookies'
 
 const instance = axios.create({
     baseURL: process.env.REACT_APP_HOST_API,
@@ -7,7 +6,7 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${getCookie('access_token')}`
+    config.headers.Authorization = `Bearer ${sessionStorage.getItem('access_token')}`
     return config
 })
 
@@ -21,7 +20,7 @@ instance.interceptors.response.use((config) => {
             method: 'post',
             url: `${process.env.REACT_APP_HOST_API}/api/token/refresh/`,
             data: {
-                refresh: getCookie('refresh_token')
+                refresh: sessionStorage.getItem('refresh_token')
             },
             headers: {
                 'Content-Type': 'application/json'
@@ -29,16 +28,13 @@ instance.interceptors.response.use((config) => {
             withCredentials: true
         })
         if (response.status === 200) {
-            const milliseconds = process.env.REACT_APP_ACCESS_TOKEN_LIFETIME
-                ? parseInt(process.env.REACT_APP_ACCESS_TOKEN_LIFETIME)
-                : 0
-            setCookie('access_token', response.data.access, milliseconds)
+            sessionStorage.setItem('access_token', response.data.access)
             return instance.request(originalRequest)
         } else {
             console.log('Error authorization!')
         }
     }
-    return error
+    return Promise.reject(error);
 }))
 
 export default instance

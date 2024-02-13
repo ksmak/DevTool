@@ -1,3 +1,16 @@
+export interface IToken {
+    user_id: number,
+    username: string,
+    full_name: string,
+}
+
+export interface IAuthContext {
+    user: IUser | null,
+    isAuthenticated: boolean,
+    login: (accessToken: string, refreshToken: string) => void,
+    logout: () => void,
+}
+
 export interface IDatabase {
     name: string
     namePlural: string
@@ -6,6 +19,7 @@ export interface IDatabase {
 export interface IUser {
     id: number
     username: string | undefined
+    fullName: string | undefined
 }
 
 export interface IDictItem {

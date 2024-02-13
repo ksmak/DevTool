@@ -1,19 +1,27 @@
-import { Route, Routes } from 'react-router-dom'
-import { ProtectedRouter } from './components/hoc/ProtectedProvider';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Devices from './components/pages/Devices';
 import Login from './components/pages/Login';
+import { AuthProvider, ProtectedRouter } from './lib/auth';
 
 const App = () => {
   return (
     <div className="flex flex-col min-h-screen font-mono">
-      <Routes>
-        <Route path="/" element={
-          <ProtectedRouter>
-            <Devices />
-          </ProtectedRouter>
-        } />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={
+            <AuthProvider>
+              <ProtectedRouter>
+                <Devices />
+              </ProtectedRouter>
+            </AuthProvider>
+          } />
+          <Route path="/login" element={
+            <AuthProvider>
+              <Login />
+            </AuthProvider>
+          } />
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }

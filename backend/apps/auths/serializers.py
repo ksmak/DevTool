@@ -1,11 +1,12 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        return {
-            "access": data["access"],
-            "refresh": data["refresh"],
-            "full_name": self.user.full_name,
-        }
+    @classmethod
+    def get_token(cls, user):
+        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+        token['user_id'] = user.id
+        token['username'] = user.username
+        token['full_name'] = user.full_name
+        return token

@@ -1,28 +1,23 @@
-import React from 'react'
 import Button from './Button'
-import { IButton, IUser } from '../../types/types'
-import { setCookie } from '../../utils/cookies'
-import { useNavigate } from 'react-router-dom'
+import { IButton } from '../../types/types'
+import { useAuth } from '../../lib/auth'
 
 interface Props {
-    user: IUser
     buttons: IButton[]
     isLoading: boolean
 }
 
-const Toolbar = ({ user, buttons, isLoading }: Props) => {
-    const navigate = useNavigate()
+const Toolbar = ({ buttons, isLoading }: Props) => {
+    const { user, logout } = useAuth()
 
     const handleLogout = () => {
-        setCookie('access_token', '', 0)
-        setCookie('refresh_token', '', 0)
-        navigate('/login')
+        logout()
     }
 
     return <div className="px-2 mt-2 font-medium dark:border-neutral-500 ">
         <div className="flex flex-row justify-between">
             <div className="flex flex-row items-center gap-2">
-                <div className="text-sm text-indigo-900">Пользователь: <span className='font-bold text-orange-900'>{user.username}</span></div>
+                <div className="text-sm text-indigo-900">Пользователь: <span className='font-bold text-orange-900'>{user?.fullName}</span></div>
                 <div className="text-sm text-indigo-900 hover:cursor-pointer underline" onClick={() => handleLogout()}>выйти</div>
             </div>
             <div className="flex flex-row justify-end items-end gap-3">

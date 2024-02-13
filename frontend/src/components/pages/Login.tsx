@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { setCookie } from '../../utils/cookies'
 import Loading from '../UI/Loading'
+import { useAuth } from '../../lib/auth'
 
 
 const Login = () => {
     const navigate = useNavigate()
+    const { login } = useAuth()
     const location = useLocation()
     const buttonRef = useRef<HTMLButtonElement>(null)
     const [username, setUsername] = useState<string | null>(null)
@@ -14,35 +15,26 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
     const [isLoading, setLoading] = useState<boolean>(false)
 
+
     let fromPage = location.state?.from?.pathname || '/';
 
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setErrorMessage(null)
         setLoading(true)
-        axios.post(`${process.env.REACT_APP_HOST_API}/api/token/`, { username: username, password: password })
-            .then(resp => {
-                setLoading(false)
-                const access_msc = process.env.REACT_APP_ACCESS_TOKEN_LIFETIME
-                    ? parseInt(process.env.REACT_APP_ACCESS_TOKEN_LIFETIME)
-                    : 10800000
-                setCookie('access_token', resp.data.access, access_msc)
-                const refresh_msc = process.env.REACT_APP_REFRESH_TOKEN_LIFETIME
-                    ? parseInt(process.env.REACT_APP_REFRESH_TOKEN_LIFETIME)
-                    : 86400000
-                setCookie('refresh_token', resp.data.refresh, refresh_msc)
-                setCookie('username', resp.data.full_name, refresh_msc)
-                navigate(fromPage, { replace: true })
+        try {
+            const resp = await axios.post(`${process.env.REACT_APP_HOST_API}/api/token/`, {
+                username: username,
+                password: password
             })
-            .catch(err => {
-                setLoading(false)
-                if (err.response?.status === 401) {
-                    setErrorMessage("Ошибка! Имя пользователя или пароль не верны!")
-                } else {
-                    setErrorMessage(err.message)
-                }
-                buttonRef?.current?.blur()
-            })
+            setLoading(false)
+            login(resp.data.access, resp.data.refresh)
+            navigate(fromPage, { replace: true })
+        } catch (error) {
+            setErrorMessage("Ошибка! Имя пользователя или пароль не верны!");
+            setLoading(false);
+            buttonRef?.current?.blur()
+        }
     }
 
     return (
