@@ -410,7 +410,7 @@ const Devices = () => {
                 setVisible={setShowErrorDialog}
                 isLoading={loading}
             />
-            <main>
+            <main className='p-4'>
                 <Toolbar
                     user={user}
                     buttons={toolbarButtons}

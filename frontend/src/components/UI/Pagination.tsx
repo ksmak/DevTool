@@ -38,7 +38,7 @@ const Pagination: React.FC<Props> = (props) => {
                     }
                 </select>
                 <div className='text-indigo-800 text-sm ml-14'>
-                    Количество: {props.count}
+                    Количество: <span className='font-bold text-orange-900'>{props.count}</span>
                 </div>
             </div>
             <nav className="flex flex-row justify-center">

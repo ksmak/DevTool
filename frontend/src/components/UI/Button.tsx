@@ -52,45 +52,45 @@ const Button = ({ title, variant, onClick, isDisabled, children }: Props) => {
             case EButtonVariant.plus:
                 return <Tooltip content={title}>
                     <IconButton
-                        className="rounded-full"
+                        className="rounded-full shadow-md shadow-blue-gray-500"
                         variant="gradient"
                         color="blue"
                         onClick={onClick}
                     >
-                        <img src="icons/plus.png" alt="plus" />
+                        <img src="plus.png" alt="plus" />
                     </IconButton>
                 </Tooltip>
             case EButtonVariant.printer:
                 return <Tooltip content={title}>
                     <IconButton
-                        className="rounded-full"
+                        className="rounded-full shadow-md shadow-blue-gray-500"
                         variant="gradient"
                         color="blue"
                         onClick={onClick}
                     >
-                        <img src="icons/print.png" alt="plus" />
+                        <img src="print.png" alt="plus" />
                     </IconButton>
                 </Tooltip>
             case EButtonVariant.archive_box_x_mark:
                 return <Tooltip content={title}>
                     <IconButton
-                        className="rounded-full"
+                        className="rounded-full shadow-md shadow-blue-gray-500"
                         variant="gradient"
                         color="red"
                         onClick={onClick}
                     >
-                        <img src="icons/remove.png" alt="plus" />
+                        <img src="remove.png" alt="plus" />
                     </IconButton>
                 </Tooltip>
             case EButtonVariant.archive_box_arrow_down:
                 return <Tooltip content={title}>
                     <IconButton
-                        className="rounded-full"
+                        className="rounded-full shadow-md shadow-blue-gray-500  "
                         variant="gradient"
                         color="red"
                         onClick={onClick}
                     >
-                        <img src="icons/replace.png" alt="plus" />
+                        <img src="replace.png" alt="plus" />
                     </IconButton>
                 </Tooltip>
         }

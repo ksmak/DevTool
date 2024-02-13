@@ -20,7 +20,7 @@ interface Props<T> {
 export default function Table<T>(props: Props<T>) {
     return (
         <div className="overflow-y-auto h-[calc(100vh-10rem)] mt-2">
-            <table className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
+            <table className="min-w-full border text-sm font-light dark:border-neutral-500 shadow-md shadow-blue-gray-400">
                 <thead className="border-b font-normal text-xs dark:border-neutral-500 bg-blue-100">
                     <tr className="border-b">
                         <th scope="col"
@@ -139,7 +139,7 @@ export default function Table<T>(props: Props<T>) {
                         props.items.map(item => {
                             return (
                                 <tr
-                                    className="border-b dark:border-neutral-500 transition duration-300 ease-in-out hover:bg-neutral-100"
+                                    className="border-b dark:border-neutral-500 transition duration-300 ease-in-out hover:bg-neutral-100 hover:bg-blue-gray-50"
                                     key={item['id' as keyof T] as number}
                                 >
                                     <td className="whitespace-nowrap border-r px-1 py-1 font-normal text-xs dark:border-neutral-500">
